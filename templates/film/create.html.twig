@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+
+    {% if creation %}
+        Nouveau film
+    {% else %}
+        Modifier un film
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+
+<section class="container bg-dark my-2 rounded">
+    {% if creation %}
+        <h2 class="bg-success text-center text-white py-3 rounded">
+            Ajouter un film
+        </h2>
+    {% else %}
+        <h2 class="bg-info text-center text-white py-3 rounded">
+            Modifier un film
+        </h2>
+    {% endif %}
+
+    {{ form_start(formulaireFilm) }}
+
+    <article class="form-group mb-2 text-white">
+        {{ form_row(formulaireFilm.name, {'attr': {'placeholder': 'Nom du film'}}) }}
+    </article>
+    <article class="form-group mb-2 text-white">
+        {{ form_row(formulaireFilm.resum, {'attr': {'placeholder': 'Résumé'}}) }}
+    </article>
+    <article class="form-group mb-2 text-white">
+        {{ form_row(formulaireFilm.producer, {'attr': {'placeholder': 'Le producteur du film'}}) }}
+    </article>
+    <article class="form-group mb-2 text-white">
+        {{ form_row(formulaireFilm.yearOfRelease, {'attr': {'placeholder': "l'année de sortie"}}) }}
+    </article>
+
+
+
+    <div class="d-flex align-items-stretch py-3">
+        {% if creation %}
+            <button type="submit" class="btn btn-success rounded shadow shadow-2-light mb-2 me-2">Créer ce film</button>
+
+        {% else %}
+            <button type="submit" class="btn btn-success rounded shadow shadow-2-light mb-2 me-2">Modifier ce film</button>
+        {% endif %}
+
+        <a href="{{path('film')}}" class="btn btn-primary rounded shadow-2-light shadow mb-2">Retour a l'acceuil</a>
+    </div>
+
+    {{ form_end(formulaireFilm) }}
+</section>
+{% endblock %}

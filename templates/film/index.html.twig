@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<div class="container row">
+    {% for film in films %}
+    <article class="col-12 mb-2 col-md-4 p-md-1 py-auto">
+        <div class="card align-self-strech rounded py-auto shadow-5">
+
+            <h3 class="card-header text-center bg-info text-white py-3 shadow">{{ film.name }} </h3>
+
+            <div class="card-body">
+                <h5 class="card-title">{{ film.name }}</h5>
+                <p class="card-text px-1">Film N°{{ loop.index }}</p>
+                <p class="card-text px-1">{{ film.resum }}</p>
+                <p class="card-text px-1">{{ film.yearOfRelease |date("Y") }}</p>
+
+            </div>
+
+            <div class="card-body text-center">
+                <a href="{{path('show_film',{id: film.id})}}" class="btn btn-success rounded shadow-2-light me-2">Voir</a>
+                <a href="{{path('film_edit',{id: film.id})}}" class="btn btn-info rounded shadow-2-light me-2">Modifier</a>
+                <a href="{{path('film_delete',{id: film.id})}}" class="btn btn-danger rounded shadow-2-light me-2">Supprimer</a>
+            </div>
+
+        </div>
+    </article>
+    {% endfor %}
+</div>
+
+{% endblock %}

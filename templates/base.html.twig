@@ -6,6 +6,7 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
+            <link href="https://bootswatch.com/5/lux/bootstrap.css" rel="stylesheet">
             {#{{ encore_entry_link_tags('app') }}#}
         {% endblock %}
 
@@ -13,7 +14,54 @@
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="bg-dark m-0">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <div class="container-fluid">
+            <a class="navbar-brand text-info fs-2" href="{{path('film')}}"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item me-2">
+                        <a class="nav-link bg-md-light text-md-dark active rounded shadow" href="{{path('film')}}">Acceuil
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('film_new') }}" class="nav-link rounded active shadow bg-md-success text-white text-md-white active shadow">Ajouter un film</a>
+                    </li>
+
+                </ul>
+                {% if app.user %}
+                    {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+                        <li class="nav-item">
+                        <a class="text-white nav-link" href="{{ path('admin_index') }}">Admin</a>
+                        </li>{% endif %}
+                {% else %}
+
+                {% endif %}
+                </ul>
+                <div class="d-flex align-items-center my-auto">
+
+                    {% if app.user %}
+                        <small class="text-white my-auto pe-5">{{ 'bonjour' | trans}} {{ app.user.username}} {{ 'connecte' | trans }}</small>
+                    {% endif %}
+
+                    <div class="col-auto">
+                        {% if app.user %}
+                            <a href="{{ path("logout") }}" class="btn btn-danger rounded me-2">{{'Deconnexion' | trans}}</a>
+                        {% else %}
+                            <a href="{{ path("login") }}" class="btn btn-success rounded me-2">{{ 'connexion' | trans }}</a>
+                            <a href="{{ path("register") }}" class="btn btn-info rounded me-2">{{ 'inscription' | trans }}</a>
+                        {% endif %}
+            </div>
+        </div>
+    </nav>
+    {% block body %}
+
+    {% endblock %}
     </body>
 </html>

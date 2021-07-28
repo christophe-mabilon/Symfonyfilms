@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-white text-center">Modifie ton impression sur le film :{{ film.name }}</h1>
+
+    <section class="container bg-dark my-2 rounded">
+        {{ form_start(formulaireImpression) }}
+        <article class="form-group mb-2 text-white">
+            {{ form_row(formulaireImpression.contenu) }}
+        </article>
+
+        <button type="submit" class="btn btn-success">Envoyer</button>
+    </section>
+    {{ form_end(formulaireImpression) }}
+
+{% endblock %}
