@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Film;
 use App\Entity\Impression;
+use App\Entity\User;
 use App\Form\FilmType;
 use App\Form\ImpressionsType;
 use App\Repository\FilmRepository;
@@ -39,6 +40,7 @@ class FilmController extends AbstractController
         $formulaire = $this->createForm(ImpressionsType::class,$impression);
         $formulaire->handleRequest($req);
         if ($formulaire->isSubmitted() && $formulaire->isValid()) {
+            $impression->setUser($this->getUser()) ;
             $impression->setCreatedAt(new \DateTime());
             $impression->setFilm($film);
             $manager->persist($impression);
@@ -58,15 +60,18 @@ class FilmController extends AbstractController
      * @Route("/film/new", name="film_new", priority=2)
      * @Route("/film/edit/{id}", name="film_edit", priority=2)
      */
-    public function new(Request $req, EntityManagerInterface $manager, Film $film = null): Response
+    public function new(Request $req,EntityManagerInterface $manager, Film $film = null): Response
     {
+
+        $user = $this->getUser();
+        if($user){
         $modeCreation = false;
+
         if (!$film) {
             $film = new Film();
             $modeCreation = true;
-
+            $film->setUser($user);
         }
-
         $formulaire = $this->createForm(FilmType::class,$film);
         $formulaire->handleRequest($req);
         if ($formulaire->isSubmitted() && $formulaire->isValid()) {
@@ -82,6 +87,9 @@ class FilmController extends AbstractController
             "creation" => $modeCreation,
             "film" => $film
         ]);
+        }else{
+            return die('Vous devez etre connectée pour faire ça !');
+        }
     }
 
     /**
@@ -90,11 +98,13 @@ class FilmController extends AbstractController
      *
      */
     public function delete(Film $film,EntityManagerInterface $manager)
-    {
-
+    {   $user = $this->getUser();
+        if($user){
         $manager->remove($film);
         $manager->flush();
         return $this->redirectToRoute('film');
-
+    }else{
+            return die('Vous devez etre connectée pour faire ça !');
+        }
     }
 }

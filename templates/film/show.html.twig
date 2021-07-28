@@ -18,28 +18,31 @@
             <p class="card-text px-1">{{ film.yearOfRelease |date("Y") }}</p>
             {% for  impression in film.impressions %}
             <p class="card-text px-1">Impression n°: {{ loop.index }}  {{ impression.contenu }}</p>
+                {% if app.user %}
                 <div class="card-body text-center">
-
                     <a href="{{path('edit_impression',{id: film.id})}}" class="btn btn-info rounded shadow-2-light me-2">Modifier</a>
-                    <a href="{{path('film_delete',{id: film.id})}}" class="btn btn-danger rounded shadow-2-light me-2">Supprimer</a>
+                    <a href="{{path('impression_delete',{id: film.id})}}" class="btn btn-danger rounded shadow-2-light me-2">Supprimer</a>
                 </div>
+                {% endif %}
             {% endfor %}
         </div>
+        {% if app.user %}
         {{ form_start(formulaireImpression) }}
 
-        <article class="form-group mb-2 text-white">
+        <article class="form-group mb-2 text-dark">
             {{ form_row(formulaireImpression.contenu, {'attr': {'placeholder': 'Votre impression'}}) }}
             <button type="submit" class="btn btn-info rounded">Enregistrer</button>
         </article>
 
 
         {{ form_end(formulaireImpression) }}
+
         <div class="card-body text-center">
             <a href="{{path('show_film',{id: film.id})}}" class="btn btn-success rounded shadow-2-light me-2">Voir</a>
             <a href="{{path('film_edit',{id: film.id})}}" class="btn btn-info rounded shadow-2-light me-2">Modifier</a>
             <a href="{{path('film_delete',{id: film.id})}}" class="btn btn-danger rounded shadow-2-light me-2">Supprimer</a>
         </div>
-
+        {% endif %}
 
     </div>
 </article>
